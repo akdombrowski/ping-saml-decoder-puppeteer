@@ -1,0 +1,33 @@
+{
+  "name": "ping-saml-decoder-puppeteer",
+  "version": "0.0.1",
+  "description": "Puppeteer use of Ping Identity's SAML Decoder Developer Tool.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akdombrowski/ping-saml-decoder-puppeteer.git"
+  },
+  "keywords": [
+    "puppeteer",
+    "Ping",
+    "Identity",
+    "SAML",
+    "decoder",
+    "Decoder",
+    "developer",
+    "tool"
+  ],
+  "author": "Anthony Dombrowski",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/akdombrowski/ping-saml-decoder-puppeteer/issues"
+  },
+  "homepage": "https://github.com/akdombrowski/ping-saml-decoder-puppeteer#readme",
+  "dependencies": {
+    "puppeteer": "^13.1.1"
+  }
+}
