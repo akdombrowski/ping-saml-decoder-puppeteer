@@ -1,33 +1,40 @@
 const puppeteer = require("puppeteer");
 
 (async () => {
+  // if URL exists in the env, use that, otherwise, fallback to the hardcoded url here for the SAML decoder on Ping Identity's developer site.
   const URL =
     process.env.URL ||
     "https://developer.pingidentity.com/en/tools/saml-decoder.html";
 
+    // new browser
   console.log("Launching Puppeteer...");
   const browser = await puppeteer.launch();
 
+  // new browser tab
   console.log(`Opening page ${URL}...`);
   const page = await browser.newPage();
 
+  // set viewport to get a nice screenshot with width 1920, height will be different since we're doing a full-page screenshot
   await page.setViewport({
     width: 1920,
     height: 1080,
     deviceScaleFactor: 1,
   });
 
+  // navigate to the SAML decoder tool page
   await page.goto(URL);
 
+  // drop a line when page is loaded
   page.once("load", () => console.log("Page loaded!"));
 
+  // get the title of the page
   const title = await page.title();
   console.log(`Title of the page "${URL}" is "${title}".`);
 
   const encodedSAML =
     "fVNNj9MwFLwj8R8s35s42X4oVltUWgGVlt2oCRy4IGO/UEvxB7azW/49TrZdBQlysmTPzJt573ntmWot3XXhrE/wqwMf0EW12tPhYYM7p6lhXnqqmQJPA6fV7vM9zRNCrTPBcNPiEWWawbwHF6TRGB0PG1weHz5+J6RYkVVDyB1hC0HIMie8EIVoilWzzFesgUJwns8x+grOR+4GRymMSmeepAD3EKtscFWiEM1HXe87OGofmA4RSbL5jKxm2bLO7+gip/PFN4wOESk1C4PYOQRL01QKm8CFKdtCwo1Kq+qxAvckOST2bIdyQ9j3Ugupf07n/PEC8vRTXZez8rGqMdrdsu+N9p0Cd5X/crp/NeH/9iBAmSyNWnDpTbxj3OPt2zcIrftW0yGq205xFQQmWGA9fZ2OWa8ylvYdPB5K00r+G30wTrHw/3hZkg03UsyaAUpBMdnuhHDgfYzZtuZ574CFOJXgOsDpuNZ1yUAMKxdbEeAS0N4oy5z0/TxiCB5eYt6CjrH7Ni7RCZrt5J5xyntcvC7j8Wyc6OcHPBauHdPeGheu/fin+OA4nbAcEbf38efZ/gE=";
 
-  // Fill form fields and select desired search options
+  // Fill form fields
   console.log("Fill in encoded SAML");
   await page.type("#saml", encodedSAML);
 
@@ -40,6 +47,7 @@ const puppeteer = require("puppeteer");
     .waitForSelector(".MuiBox-root > pre > code")
     .then(() => console.log("decoded saml ready!"));
 
+    // Take screenshot of result
   await page.screenshot({
     path: "./screenshots/samlDecoded.png",
     fullPage: true,
